@@ -92,7 +92,17 @@ hr.RampBreak--l {
 
 .RampInputSelect--dropdown-container {
   display: none;
-  position: fixed;
+  /* Changed the dropdown position from fixed to absolute */
+  /* 
+  Before: position: fixed;
+      - The dropdown was positioned relative to the viewport, causing it to remain fixed on the screen even when the page was scrolled.
+      - This caused the dropdown to lose its reference to the select input as the page scrolled.
+
+  After: position: absolute;
+      - The dropdown is now positioned relative to its nearest positioned ancestor (the parent element).
+      - This ensures that the dropdown moves along with the parent input as the page is scrolled, maintaining its reference and correct placement.
+  */
+  position: absolute;
   width: 100%;
   max-width: 700px;
   border: 1px solid var(--color-darker-shade);
@@ -137,10 +147,6 @@ hr.RampBreak--l {
   cursor: pointer;
 }
 
-.RampInputCheckbox--label-disabled {
-  cursor: progress;
-}
-
 .RampInputCheckbox--label-checked:before {
   content: " ";
   width: 100%;
@@ -149,8 +155,29 @@ hr.RampBreak--l {
   background-color: var(--color-constructive);
 }
 
+/* Updated the checkbox input style to fix the issue where clicking the checkbox doesn't toggle its value */
+/* 
+Before: 
 .RampInputCheckbox--input {
   display: none;
+    - The checkbox input was hidden from view and not interactable.
+    - As a result, clicking the checkbox did nothing because the input element was not accessible.
+
+After: 
+.RampInputCheckbox--input {
+  transform: translate(-20px); 
+  opacity: 0;
+  height: 20px;
+  width: 20px;
+    - The input element is now made invisible by adjusting its position and opacity rather than hiding it completely.
+    - The checkbox remains accessible and interactable while being visually hidden, allowing the toggle functionality to work as expected.
+}
+/*  */
+.RampInputCheckbox--input {
+  transform: translate(-20px);
+  opacity: 0;
+  height: 20px;
+  width: 20px;
 }
 
 .RampButton {

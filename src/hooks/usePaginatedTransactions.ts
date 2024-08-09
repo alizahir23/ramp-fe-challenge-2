@@ -22,7 +22,18 @@ export function usePaginatedTransactions(): PaginatedTransactionsResult {
         return response
       }
 
-      return { data: response.data, nextPage: response.nextPage }
+      // Updated fetchAll function to append new data to existing transactions instead of replacing them.
+      //
+      // - The previous implementation replaced the initial transactions with new ones when more data was fetched.
+      // - This caused the initial transactions to be lost when the "View More" button was clicked.
+      //
+      // - The new implementation appends the new transactions to the existing ones, preserving the initial data.
+      // - This ensures that all transactions are displayed together, fixing the bug where initial transactions were lost.
+
+      return {
+        data: [...(paginatedTransactions?.data ?? []), ...response.data],
+        nextPage: response.nextPage,
+      }
     })
   }, [fetchWithCache, paginatedTransactions])
 
